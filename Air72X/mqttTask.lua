@@ -6,7 +6,7 @@ require "mqttOutMsg"
 require "mqttInMsg"
 require "http"
 local ready = false
-local authKey = "86c34c2ab1c2" --点灯云申请的设备authKey
+local authKey = "" --点灯云申请的设备authKey
 local serverAdress = "http://iot.diandeng.tech/api/v1/user/device/diy/auth?authKey=" --http鉴权地址
 mqttAdress, deviceName, iotId, iotToken = ""
 --- MQTT连接是否处于激活状态

@@ -4,11 +4,11 @@ sys = require("sys") --系统库必须引用
 wifiLib = require("wifiLib") --wifi操作相关的函数封装
 httpLib = require("httpLib") --http操作相关函数封装
 
-ssid = "" --wifi名
-password = "" --wifi密码
-USE_SMARTCONFIG = false --是否使用SMARTCONFIG配网
-authKey = "" --点灯云申请的设备authKey
-serverAdress = "http://iot.diandeng.tech/api/v1/user/device/diy/auth?authKey=" --http鉴权地址
+local ssid = "" --wifi名
+local password = "" --wifi密码
+local USE_SMARTCONFIG = false --是否使用SMARTCONFIG配网
+local authKey = "" --点灯云申请的设备authKey
+local serverAdress = "http://iot.diandeng.tech/api/v1/user/device/diy/auth?authKey=" --http鉴权地址
 
 --获取设备连接信息
 --传入参数：authKey为点灯云申请的设备authKey
@@ -19,7 +19,7 @@ local function getDeviceInfo(authKey)
         log.error("获取设备信息失败 ", data)
     else
         if data and json.decode(data) then
-            authdata = json.decode(data)
+            local authdata = json.decode(data)
             log.info("获取设备信息成功", authdata.detail.host, authdata.detail.deviceName, authdata.detail.iotId, authdata.detail.iotToken)
             return true, authdata.detail.host, authdata.detail.deviceName, authdata.detail.iotId, authdata.detail.iotToken
         end
@@ -89,5 +89,8 @@ sys.taskInit(
         end
     end
 )
-
+sys.timerLoopStart(function()
+    log.info("mem.lua", rtos.meminfo())-- 打印占用的RAM
+    collectgarbage("collect")
+end, 3000)
 sys.run()
